@@ -2,7 +2,7 @@ import 'package:airportuser/controllers/RegistrationController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Registration extends StatelessWidget {
+class Login extends StatelessWidget {
   static final RegistrationController controller = Get.put(RegistrationController());
 
   @override
@@ -30,19 +30,11 @@ class Registration extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const Text(
-                'Register',
+                'Login',
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Name',
-                  border: OutlineInputBorder(),
-                ),
-                controller: controller.name,
               ),
               const SizedBox(height: 20),
               TextField(
@@ -66,7 +58,7 @@ class Registration extends StatelessWidget {
                 onPressed: () {
                   controller.register(context);
                 },
-                child: const Text('Register', style: TextStyle(color: Colors.white)),
+                child: const Text('Login', style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                   backgroundColor: Colors.blueGrey[900],
@@ -77,9 +69,9 @@ class Registration extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               InkWell(
-                child: const Text("Already have an account? Login"),
+                child: const Text("Don't have an account? Register"),
                 onTap: (){
-                  Get.toNamed('/login');
+                  Get.toNamed('/register');
                 }
               )
             ],
