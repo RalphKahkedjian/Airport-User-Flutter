@@ -1,3 +1,4 @@
+import 'package:airportuser/routes/AppPage.dart';
 import 'package:airportuser/routes/AppRoute.dart';
 import 'package:airportuser/views/Home.dart';
 import 'package:airportuser/views/Registration.dart';
@@ -18,10 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       initialRoute: Approute.register, 
-      getPages: [
-        GetPage(name: Approute.register, page: () => Registration()),
-        GetPage(name: '/home', page: () => Home()),
-      ],
+      getPages: Apppage.Pages
     );
   }
 }

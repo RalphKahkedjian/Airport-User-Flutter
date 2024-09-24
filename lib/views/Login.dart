@@ -1,9 +1,10 @@
+import 'package:airportuser/controllers/LoginController.dart';
 import 'package:airportuser/controllers/RegistrationController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Login extends StatelessWidget {
-  static final RegistrationController controller = Get.put(RegistrationController());
+  static final Logincontroller controller = Get.put(Logincontroller());
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class Login extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  controller.register(context);
+                  controller.login(context);
                 },
                 child: const Text('Login', style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
