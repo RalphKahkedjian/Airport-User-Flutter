@@ -1,29 +1,41 @@
-import 'package:airportuser/controllers/LoginController.dart';
+import 'package:airportuser/controllers/TicketController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
+  // Create an instance of TicketController
+  static final TicketController ticketController = Get.put(TicketController());
 
-  static final Logincontroller controller = Get.put(Logincontroller());
- 
+  Home() {
+    ticketController.viewTickets();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueGrey[900],
-        title: Text("Booking", style: TextStyle(color: Colors.white),),
-        centerTitle: true,
-      ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: ElevatedButton(onPressed: (){
-                controller.logout(context);
-              },
-              child: Text("logout")),
-            )
+          children: [
+            Container(
+              height: 200,
+              decoration: BoxDecoration(
+                color: Colors.blueGrey[900],
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  'Welcome to Our Airport',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

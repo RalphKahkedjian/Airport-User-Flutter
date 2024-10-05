@@ -6,38 +6,48 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Logincontroller extends GetxController {
-
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
   void login(BuildContext context) async {
     User user = User(
       email: email.text,
-      password: password.text
-      );
+      password: password.text,
+    );
 
-      String request_body = user.toJson();
-      try {
-        var response = await DioClient().GetInstance().post('/auth', data: request_body);
-        if(response.statusCode == 200) {
-          String name = response.data['user']['name'];
-          String token = response.data['token'];
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('ACCESS_TOKEN', token);
+    String requestBody = user.toJson();
+    try {
+      var response = await DioClient().GetInstance().post('/auth', data: requestBody);
 
-          showsuccessdialog(context, "Success", "Welcome back, ${name}", () {
-            Future.delayed(const Duration(seconds: 2), () {
-               Get.offNamed('/home');
-            });
+      if (response.statusCode == 200) {
+        String name = response.data['user']['name'];
+        String userEmail = response.data['user']['email'];
+        int userId = response.data['user']['id']; // Make sure ID is saved correctly
+        String token = response.data['token'];
+
+        // Save the token and user data to SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('ACCESS_TOKEN', token);
+        await prefs.setString('name', name);
+        await prefs.setString('email', userEmail);
+        await prefs.setInt('id', userId);
+
+        // Show success dialog and navigate to the home screen
+        showsuccessdialog(context, "Success", "Welcome back, $name", () {
+          print("Name: " + name);
+          print("Token: " + token);
+          Future.delayed(const Duration(seconds: 2), () {
+            Get.offNamed('/home');
           });
-        } else {
-          showsuccessdialog(Get.context!, "Failed", "Incorrect email or password", null);
-        }
-      } catch(err) {
-          showsuccessdialog(Get.context!, "Failed", "An error occured", null);
+        });
+      } else {
+        showsuccessdialog(Get.context!, "Failed", "Incorrect email or password", null);
       }
+    } catch (err) {
+      showsuccessdialog(Get.context!, "Failed", "An error occurred", null);
+    }
   }
-  
+
   Future<void> logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("ACCESS_TOKEN");

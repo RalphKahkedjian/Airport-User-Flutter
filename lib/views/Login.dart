@@ -1,5 +1,4 @@
 import 'package:airportuser/controllers/LoginController.dart';
-import 'package:airportuser/controllers/RegistrationController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
