@@ -22,17 +22,16 @@ class Logincontroller extends GetxController {
       if (response.statusCode == 200) {
         String name = response.data['user']['name'];
         String userEmail = response.data['user']['email'];
-        int userId = response.data['user']['id']; // Make sure ID is saved correctly
+        int userId = response.data['user']['id'];
         String token = response.data['token'];
 
-        // Save the token and user data to SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('ACCESS_TOKEN', token);
         await prefs.setString('name', name);
         await prefs.setString('email', userEmail);
         await prefs.setInt('id', userId);
 
-        // Show success dialog and navigate to the home screen
+
         showsuccessdialog(context, "Success", "Welcome back, $name", () {
           print("Name: " + name);
           print("Token: " + token);

@@ -104,16 +104,16 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_airport_sharp),
-            label: 'Bookings',
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book_online_outlined),
+            label: 'Booking',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.airplane_ticket),
             label: 'Tickets',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Admins',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

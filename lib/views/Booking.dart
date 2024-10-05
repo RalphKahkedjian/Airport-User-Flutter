@@ -5,23 +5,20 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class Booking extends StatelessWidget {
-  // Create instances of controllers
   static final TicketController ticketController = Get.put(TicketController());
   static final BookingController bookingController = Get.put(BookingController());
 
-  // Create text editing controllers
   final TextEditingController userIdController = TextEditingController();
   final TextEditingController ticketIdController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
 
   Booking() {
-    // Fetch the tickets in the constructor
     ticketController.viewTickets();
   }
 
-  // Function to show the modal dialog
+
   void showBookingDialog(BuildContext context, int ticketId) {
-    ticketIdController.text = ticketId.toString(); // Pre-fill the ticket ID field
+    ticketIdController.text = ticketId.toString();
 
     showDialog(
       context: context,
@@ -39,7 +36,7 @@ class Booking extends StatelessWidget {
               TextField(
                 controller: ticketIdController,
                 keyboardType: TextInputType.number,
-                enabled: false, // Disable editing since it's pre-filled
+                enabled: false,
                 decoration: InputDecoration(labelText: 'Ticket ID (pre-filled)'),
               ),
               TextField(
@@ -53,17 +50,16 @@ class Booking extends StatelessWidget {
             TextButton(
               child: Text('Cancel'),
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop(); 
               },
             ),
             ElevatedButton(
               onPressed: () {
-                // Call the booking function with user inputs
                 int userId = int.parse(userIdController.text);
                 int quantity = int.parse(quantityController.text);
                 bookingController.bookTicket(userId, ticketId, quantity);
 
-                Navigator.of(context).pop(); // Close the dialog after booking
+                Navigator.of(context).pop(); 
               },
               child: Obx(() => bookingController.isLoading.value
                   ? CircularProgressIndicator(color: Colors.white)
@@ -81,7 +77,6 @@ class Booking extends StatelessWidget {
     );
   }
 
-  // Function to format the time
   String formatTime(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
     return DateFormat('HH:mm').format(dateTime);
@@ -165,7 +160,7 @@ class Booking extends StatelessWidget {
                             SizedBox(height: 16),
                             ElevatedButton(
                               onPressed: isBooked
-                                  ? null // Disable the button if already booked
+                                  ? null 
                                   : () {
                                       showBookingDialog(context, ticket['id']);
                                     },

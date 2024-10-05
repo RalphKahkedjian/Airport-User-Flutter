@@ -22,22 +22,19 @@ class RegistrationController extends GetxController {
       var response = await DioClient().GetInstance().put('/auth', data: request_body);
       if (response.statusCode == 200) {
         print(response.data);
-
-        // Extracting the response data safely
         String token = response.data['token'];
-        int? id = response.data['user']?['id'];  // Using null-aware operator in case 'id' is null
+        int? id = response.data['user']?['id']; 
         String? userEmail = response.data['user']?['email'];
         String userName = response.data['user']?['name'];
 
         if (id != null && userEmail != null) {
-          // Storing data in SharedPreferences
+ 
           SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('ACCESS_TOKEN', token);
-          await prefs.setInt('id', id);  // id is nullable, but ensure it's not null before storing
+          await prefs.setInt('id', id); 
           await prefs.setString('email', userEmail);
           await prefs.setString('name', userName);
 
-          // Show success dialog and navigate
           showsuccessdialog(
             context,
             'Success',

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
-  // Create an instance of TicketController
   static final TicketController ticketController = Get.put(TicketController());
 
   Home() {

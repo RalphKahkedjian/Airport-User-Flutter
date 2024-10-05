@@ -90,14 +90,13 @@ class Profile extends StatelessWidget {
                                   actions: <Widget>[
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.of(context).pop(); // Close the dialog
+                                        Navigator.of(context).pop();
                                       },
                                       child: Text("Cancel"),
                                     ),
                                     TextButton(
                                       onPressed: () async {
-                                        Navigator.of(context).pop(); // Close the dialog
-
+                                        Navigator.of(context).pop(); 
                                         SharedPreferences prefs = await SharedPreferences.getInstance();
                                         int? userID = prefs.getInt('id');
 
@@ -140,12 +139,11 @@ class Profile extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? name = prefs.getString('name');
     String? email = prefs.getString('email');
-    int? id = prefs.getInt('id'); // Retrieve the user ID as int
-
+    int? id = prefs.getInt('id'); 
     return {
       'name': name,
       'email': email,
-      'id': id?.toString(), // Convert the ID to a string for display
+      'id': id?.toString(),
     };
   }
 }

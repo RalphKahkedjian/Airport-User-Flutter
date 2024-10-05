@@ -1,8 +1,10 @@
 import 'package:airportuser/core/network/dioClient.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TicketController extends GetxController {
-  var tickets = <dynamic>[].obs; // Observable list for tickets
+  var tickets = <dynamic>[].obs;       
+  var bookedTickets = <dynamic>[].obs; 
 
   void viewTickets() async {
     try {
@@ -11,7 +13,7 @@ class TicketController extends GetxController {
         var ticketData = response.data['data'];
 
         if (ticketData is List) {
-          tickets.value = ticketData; // Set the tickets if fetched successfully
+          tickets.value = ticketData;
         } else {
           print("Expected ticket data to be a list but got: ${ticketData.runtimeType}");
         }
@@ -22,4 +24,5 @@ class TicketController extends GetxController {
       print("Error fetching tickets: $e");
     }
   }
+
 }
