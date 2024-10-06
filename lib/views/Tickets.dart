@@ -24,59 +24,68 @@ class _TicketsState extends State<Tickets> {
         centerTitle: true,
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Obx(() {
-              if (ticketController.bookedTickets.isEmpty) {
-                return Center(
-                  child: Text(
-                    'No booked tickets found.',
-                    style: TextStyle(color: Colors.white), 
+      body: Obx(() {
+        if (ticketController.bookedTickets.isEmpty) {
+          return Center(
+            child: Text(
+              'No booked tickets found.',
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        } else {
+          return ListView.builder(
+            itemCount: ticketController.bookedTickets.length,
+            itemBuilder: (context, index) {
+              var ticket = ticketController.bookedTickets[index];
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.blueGrey[900],
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(60),
                   ),
-                );
-              } else {
-                return ListView.builder(
-                  itemCount: ticketController.bookedTickets.length,
-                  itemBuilder: (context, index) {
-                    var ticket = ticketController.bookedTickets[index];
-                    return Container(
-                      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16), 
-                      decoration: BoxDecoration(
-                        color: Colors.blueGrey[900], 
-                        borderRadius: BorderRadius.circular(10), 
-                      ),
-                      child: ListTile(
-                        leading: Icon(
+                ),
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
                           Icons.airplane_ticket,
                           color: Colors.white,
                         ),
-                        title: Text(
-                          'Booked Ticket ID: ${ticket['id']}',
-                          style: TextStyle(color: Colors.white), 
-                        ),
-                        subtitle: Text(
-                          'Ticket ID: ${ticket['ticket_id']}, Quantity: ${ticket['quantity']}, Status: ${ticket['status']}',
-                          style: TextStyle(color: Colors.white70), 
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.redAccent,
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Booked Ticket ID: ${ticket['id']}',
+                            style: TextStyle(color: Colors.white),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          onPressed: () {
-
-                          },
                         ),
-                      ),
-                    );
-                  },
-                );
-              }
-            }),
-          ),
-        ],
-      ),
+                      ],
+                    ),
+                    Divider(color: Colors.white),
+                    SizedBox(height: 8),
+                    Text(
+                      'Ticket ID: ${ticket['ticket_id']}',
+                      style: TextStyle(color: Colors.white70, fontSize: 15),
+                    ),
+                    Text(
+                      'Quantity: ${ticket['quantity']}',
+                      style: TextStyle(color: Colors.white70, fontSize: 15),
+                    ),
+                    Text(
+                      'Status: ${ticket['status']}',
+                      style: TextStyle(color: Colors.white70, fontSize: 15),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        }
+      }),
     );
   }
 }

@@ -25,7 +25,8 @@ class Profile extends StatelessWidget {
 
           final userData = snapshot.data!;
           return Center(
-            child: Padding(
+            child: SingleChildScrollView(
+              child: Padding(
               padding: const EdgeInsets.all(40),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -130,6 +131,7 @@ class Profile extends StatelessWidget {
                 ],
               ),
             ),
+            )
           );
         },
       ),
