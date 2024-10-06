@@ -155,22 +155,49 @@ Widget build(BuildContext context) {
             child: Column(
               children: <Widget>[
                 SizedBox(height: 8,),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: <Widget>[
-                      _buildOfferBox("Discount\n50% Off", Colors.blueGrey[800] ?? Colors.blueGrey),
-                      SizedBox(width: 10),
-                      _buildOfferBox("Buy 1 Get\n1 Free", Colors.purple[900] ?? Colors.purple),
-                      SizedBox(width: 10),
-                      _buildOfferBox("Flight + Hotel\nPackage", Colors.teal[800] ?? Colors.teal),
-                      SizedBox(width: 10),
-                      _buildOfferBox("Special Rates\nfor Students", Colors.deepOrange[900] ?? Colors.deepOrange),
-                      SizedBox(width: 10),
-                      _buildOfferBox("Weekend Deals\n20% Off", Colors.indigo[900] ?? Colors.indigo),
-                    ],
-                  ),
-                ),
+SingleChildScrollView(
+  scrollDirection: Axis.horizontal,
+  child: Row(
+    children: <Widget>[
+      _buildOfferBox(
+        "Discount\n50% Off", 
+        "Get 50% off on \n all tickets!", 
+        Colors.blueGrey[800] ?? Colors.blueGrey, 
+        'images/firstOffer.png'
+      ),
+      SizedBox(width: 10),
+      _buildOfferBox(
+        "Buy 1 Get\n1 Free", 
+        "Buy one ticket and get another free!", 
+        Colors.purple[900] ?? Colors.purple, 
+        'images/secondOffer.png'
+      ),
+      SizedBox(width: 10),
+      _buildOfferBox(
+        "Flight + Hotel\nPackage", 
+        "Book a flight and hotel together for a discount!", 
+        Colors.teal[800] ?? Colors.teal, 
+        'images/thirdOffer.png'
+      ),
+      SizedBox(width: 10),
+      _buildOfferBox(
+        "Special Rates\nfor Students", 
+        "Exclusive discounts for students with valid ID!", 
+        Colors.deepOrange[900] ?? Colors.deepOrange, 
+        'images/fourthOffer.png'
+      ),
+      SizedBox(width: 10),
+      _buildOfferBox(
+        "Weekend Deals\n20% Off", 
+        "Save 20% on weekend flights!", 
+        Colors.indigo[900] ?? Colors.indigo, 
+        'images/fifthOffer.png'
+      ),
+    ],
+  ),
+)
+
+
               ],
             ),
           )
@@ -180,28 +207,56 @@ Widget build(BuildContext context) {
   );
 }
 
-
-  Widget _buildOfferBox(String offerText, Color color) {
+Widget _buildOfferBox(String offerText, String description, Color color, String imagePath) {
   return Container(
     width: 250, // Width of each offer box
-    height: 350, // Height of each offer box
+    height: 420, // Height of each offer box
     decoration: BoxDecoration(
       color: color ?? Colors.grey, // Default color if null
       borderRadius: BorderRadius.circular(20), // Rounded corners
     ),
-    child: Center(
-      child: Text(
-        offerText,
-        textAlign: TextAlign.center, // Center the text inside the box
-        style: TextStyle(
-          color: Colors.white, // Text color inside the box
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center, // Center content
+      children: [
+        SizedBox(height: 15),
+        Text(
+          offerText,
+          textAlign: TextAlign.center, // Center the text inside the box
+          style: TextStyle(
+            color: Colors.white, // Text color inside the box
+            fontSize: 25,
+            fontWeight: FontWeight.w800,
+          ),
         ),
-      ),
+        SizedBox(height: 20), // Spacing between text and description
+        Padding(padding: const EdgeInsets.all(20),
+        child:         Text(
+          description,
+          textAlign: TextAlign.center, // Center the description text
+          style: TextStyle(
+            color: Colors.white70, // Slightly lighter color for description
+            fontSize: 17,
+            fontWeight: FontWeight.w500,
+          ),
+        ),),
+        SizedBox(height: 13), // Spacing between description and image
+        Container(
+          width: 200,
+          height: 150, // Reduced height for the image
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20), // Optional: rounded corners for the image
+            child: Image.asset(
+              imagePath,
+              fit: BoxFit.cover, // Adjust how the image fits inside the container
+            ),
+          ),
+        ),
+      ],
     ),
   );
 }
+
+
 
   Widget _buildStatBox(String label, String stat) {
     return Column(

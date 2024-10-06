@@ -32,8 +32,8 @@ class Profile extends StatelessWidget {
                 children: <Widget>[
                    Image.asset(
                 'images/logo.png',
-                width: 200,
-                height: 200,
+                width: 220,
+                height: 220,
               ),
               SizedBox(height: 35,),
                   TextField(
