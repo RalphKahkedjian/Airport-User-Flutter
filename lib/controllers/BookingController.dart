@@ -27,7 +27,7 @@ class BookingController extends GetxController {
         Get.snackbar("Error", response.data['error'] ?? "Booking failed.", snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {
-      Get.snackbar("Error", "Something went wrong. Please check your internet connection.", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", "You've already booked this ticket", snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }

@@ -12,11 +12,6 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('Your Profile')),
-        automaticallyImplyLeading: false,
-        centerTitle: false,
-      ),
       body: FutureBuilder<Map<String, String?>>(
         future: _getUserData(),
         builder: (context, snapshot) {
@@ -35,6 +30,12 @@ class Profile extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                   Image.asset(
+                'images/logo.png',
+                width: 200,
+                height: 200,
+              ),
+              SizedBox(height: 35,),
                   TextField(
                     readOnly: true,
                     decoration: InputDecoration(labelText: 'User ID'),

@@ -136,6 +136,8 @@ class Booking extends StatelessWidget {
                             ),
                             Divider(color: Colors.black),
                             SizedBox(height: 8),
+                            Text("ID: ${ticket['id']}", style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+                            SizedBox(height: 4),
                             Text("Flight: ${ticket['flight_number']}", style: TextStyle(fontSize: 16, color: Colors.grey[700])),
                             SizedBox(height: 4),
                             Text("Seat: ${ticket['seat_number']}", style: TextStyle(fontSize: 16, color: Colors.grey[700])),
@@ -164,8 +166,8 @@ class Booking extends StatelessWidget {
                                   : () {
                                       showBookingDialog(context, ticket['id']);
                                     },
-                              child: Text(isBooked ? "Booked" : "Book"),
-                              style: ElevatedButton.styleFrom(
+                                child: Text("Book"),
+                                style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 backgroundColor: isBooked ? Colors.grey : Colors.blueGrey[900],
                                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
