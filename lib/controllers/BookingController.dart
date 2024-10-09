@@ -3,9 +3,10 @@ import 'package:airportuser/core/network/dioClient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingController extends GetxController {
-  var bookedTickets = <Map<String, dynamic>>[].obs;
-  var isLoading = false.obs;
 
+  var bookedTickets = <Map<String, dynamic>>[].obs;  
+  var isLoading = false.obs; 
+  
   void bookTicket(int userId, int ticketId, int quantity) async {
     var bookingData = {
       'user_id': userId,
@@ -38,12 +39,8 @@ class BookingController extends GetxController {
     int? userID = prefs.getInt('id');
     if (userID == null) {
       print("User ID not found.");
-      bookedTickets.clear();
       return;
     }
-
-    bookedTickets.clear();
-    isLoading.value = true;
 
     try {
       var response = await DioClient().GetInstance().get('/book/$userID');
@@ -67,9 +64,6 @@ class BookingController extends GetxController {
         } else {
           print("Expected a list of tickets but got: ${ticketsData.runtimeType}");
         }
-      } else if (response.statusCode == 404) {
-        Get.snackbar("Error", "Ticket ID not found", snackPosition: SnackPosition.BOTTOM);
-        bookedTickets.clear();
       } else {
         print("Failed to load booked tickets: ${response.statusCode}");
       }
@@ -78,9 +72,25 @@ class BookingController extends GetxController {
         Get.snackbar("Error", "Ticket ID not found", snackPosition: SnackPosition.BOTTOM);
         bookedTickets.clear();
       } else {
-        Get.snackbar("Error", "Error fetching booked tickets", snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar("Error", "No Booking Tickets Found ", snackPosition: SnackPosition.BOTTOM);
       }
       print("Error fetching booked tickets: $e");
+    }
+  }
+
+  void deleteBooking(int bookingId, int userId) async {
+    isLoading.value = true;
+    try {
+      var response = await DioClient().GetInstance().delete('/book/$bookingId', data: {'user_id': userId});
+      
+      if (response.statusCode == 200) {
+        bookedTickets.removeWhere((ticket) => ticket['id'] == bookingId);
+        Get.snackbar("Success", "Booking deleted successfully!", snackPosition: SnackPosition.BOTTOM);
+      } else {
+        Get.snackbar("Error", "Failed to delete booking.", snackPosition: SnackPosition.BOTTOM);
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Could not delete booking.", snackPosition: SnackPosition.BOTTOM);
     } finally {
       isLoading.value = false;
     }

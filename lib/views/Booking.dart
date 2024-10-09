@@ -26,23 +26,26 @@ class Booking extends StatelessWidget {
           title: Text('Book Ticket'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: [
-              Divider(color: Colors.blueGrey[900],),
-                Text(
-                'Ticket ID : $ticketId',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              TextField(
-                controller: userIdController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'User ID'),
-              ),
-              TextField(
-                controller: quantityController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'Quantity'),
-              ),
-            ],
+              children: [
+                TextField(
+                  controller: ticketIdController, 
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    labelText: 'Ticket ID',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                TextField(
+                  controller: userIdController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(labelText: 'User ID'),
+                ),
+                TextField(
+                  controller: quantityController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(labelText: 'Quantity'),
+                ),
+              ],
           ),
           actions: [
             ElevatedButton(

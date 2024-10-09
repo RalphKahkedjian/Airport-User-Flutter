@@ -82,7 +82,6 @@ class Profile extends StatelessWidget {
                         SizedBox(width: 10),
                         ElevatedButton(
                           onPressed: () async {
-                            // Show confirmation dialog
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
