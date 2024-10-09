@@ -28,11 +28,13 @@ class _TicketsState extends State<Tickets> {
         if (ticketController.bookedTickets.isEmpty) {
           return Center(
             child: Text(
-              'No booked tickets found.',
-              style: TextStyle(color: Colors.white),
+              'No bookings found.',
+              style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           );
-        } else {
+        }
+
+else {
           return ListView.builder(
             itemCount: ticketController.bookedTickets.length,
             itemBuilder: (context, index) {
@@ -67,7 +69,7 @@ class _TicketsState extends State<Tickets> {
                     ),
                     Divider(color: Colors.white),
                     SizedBox(height: 8),
-                    Text(
+                                        Text(
                       'Ticket ID: ${ticket['ticket_id']}',
                       style: TextStyle(color: Colors.white70, fontSize: 15),
                     ),

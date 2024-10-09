@@ -16,7 +16,6 @@ class Booking extends StatelessWidget {
     ticketController.viewTickets();
   }
 
-
   void showBookingDialog(BuildContext context, int ticketId) {
     ticketIdController.text = ticketId.toString();
 
@@ -28,16 +27,15 @@ class Booking extends StatelessWidget {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Divider(color: Colors.blueGrey[900],),
+                Text(
+                'Ticket ID : $ticketId',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               TextField(
                 controller: userIdController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(labelText: 'User ID'),
-              ),
-              TextField(
-                controller: ticketIdController,
-                keyboardType: TextInputType.number,
-                enabled: false,
-                decoration: InputDecoration(labelText: 'Ticket ID (pre-filled)'),
               ),
               TextField(
                 controller: quantityController,
@@ -47,12 +45,6 @@ class Booking extends StatelessWidget {
             ],
           ),
           actions: [
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop(); 
-              },
-            ),
             ElevatedButton(
               onPressed: () {
                 int userId = int.parse(userIdController.text);
@@ -161,15 +153,14 @@ class Booking extends StatelessWidget {
                             ),
                             SizedBox(height: 16),
                             ElevatedButton(
-                              onPressed: isBooked
-                                  ? null 
-                                  : () {
-                                      showBookingDialog(context, ticket['id']);
-                                    },
-                                child: Text("Book"),
-                                style: ElevatedButton.styleFrom(
+                              onPressed:
+                                  (){
+                                     showBookingDialog(context, ticket['id']);
+                                   },
+                              child: Text("Book"),
+                              style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white,
-                                backgroundColor: isBooked ? Colors.grey : Colors.blueGrey[900],
+                                backgroundColor: Colors.blueGrey[900],
                                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                               ),

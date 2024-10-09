@@ -3,9 +3,9 @@ import 'package:airportuser/core/network/dioClient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingController extends GetxController {
+  var bookedTickets = <Map<String, dynamic>>[].obs;
+  var isLoading = false.obs;
 
-  var bookedTickets = <Map<String, dynamic>>[].obs;  
-  var isLoading = false.obs; 
   void bookTicket(int userId, int ticketId, int quantity) async {
     var bookingData = {
       'user_id': userId,
@@ -33,44 +33,64 @@ class BookingController extends GetxController {
     }
   }
 
-void viewBookedTickets() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  int? userID = prefs.getInt('id'); 
-  if (userID == null) {
-    print("User ID not found.");
-    return;
-  }
-  
-  try {
-    var response = await DioClient().GetInstance().get('/book/$userID');
-    print(response.data); 
-
-    if (response.statusCode == 200) {
-      var ticketsData = response.data;
-
-      if (ticketsData is List) {
-        bookedTickets.value = ticketsData.map((ticket) {
-          return {
-            'id': ticket['id'],         
-            'ticket_id': ticket['ticket_id'],
-            'quantity': ticket['quantity'],    
-            'status': ticket['status'],        
-          };
-        }).toList();
-        
-        print("Fetched ${bookedTickets.length} booked tickets");
-      } else {
-        print("Expected a list of tickets but got: ${ticketsData.runtimeType}");
-      }
-    } else {
-      print("Failed to load booked tickets: ${response.statusCode}");
+  void viewBookedTickets() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? userID = prefs.getInt('id');
+    if (userID == null) {
+      print("User ID not found.");
+      bookedTickets.clear();
+      return;
     }
-  } catch (e) {
-    print("Error fetching booked tickets: $e");
+
+    bookedTickets.clear();
+    isLoading.value = true;
+
+    try {
+      var response = await DioClient().GetInstance().get('/book/$userID');
+      print(response.data);
+
+      if (response.statusCode == 200) {
+        var ticketsData = response.data;
+
+        if (ticketsData is List) {
+          bookedTickets.value = ticketsData.map((ticket) {
+            return {
+              'id': ticket['id'],
+              'ticket_id': ticket['ticket_id'],
+              'quantity': ticket['quantity'],
+              'status': ticket['status'],
+            };
+          }).toList();
+
+          print("Fetched ${bookedTickets.length} booked tickets");
+          print("Booked Tickets: $bookedTickets");
+        } else {
+          print("Expected a list of tickets but got: ${ticketsData.runtimeType}");
+        }
+      } else if (response.statusCode == 404) {
+        Get.snackbar("Error", "Ticket ID not found", snackPosition: SnackPosition.BOTTOM);
+        bookedTickets.clear();
+      } else {
+        print("Failed to load booked tickets: ${response.statusCode}");
+      }
+    } catch (e) {
+      if (e.response?.statusCode == 404) {
+        Get.snackbar("Error", "Ticket ID not found", snackPosition: SnackPosition.BOTTOM);
+        bookedTickets.clear();
+      } else {
+        Get.snackbar("Error", "Error fetching booked tickets", snackPosition: SnackPosition.BOTTOM);
+      }
+      print("Error fetching booked tickets: $e");
+    } finally {
+      isLoading.value = false;
+    }
   }
-}
 
   bool isTicketBooked(int ticketId) {
     return bookedTickets.any((ticket) => ticket['id'] == ticketId);
   }
+}
+
+extension on Object {
+  get response => null;
 }

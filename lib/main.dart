@@ -64,7 +64,6 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     });
   }
 
-  // Pages for the BottomNavigationBar
   final List<Widget> _pages = [
     Home(),
     Booking(),
@@ -72,11 +71,10 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     Profile()
   ];
 
-  // Titles for the AppBar
   final List<String> _titles = [
     'Home',
+    'Booking',
     'Tickets',
-    'Admins',
     'Profile',
   ];
 
