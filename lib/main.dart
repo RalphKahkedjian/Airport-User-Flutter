@@ -73,8 +73,8 @@ class _DefaultLayoutState extends State<DefaultLayout> {
 
   final List<String> _titles = [
     'Home',
-    'Booking',
     'Tickets',
+    'Booking',
     'Profile',
   ];
 
@@ -106,12 +106,12 @@ class _DefaultLayoutState extends State<DefaultLayout> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book_online_outlined),
-            label: 'Booking',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.airplane_ticket),
             label: 'Tickets',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book_online_outlined),
+            label: 'Booking',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
