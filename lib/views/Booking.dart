@@ -32,7 +32,6 @@ class Booking extends StatelessWidget {
                   readOnly: true,
                   decoration: InputDecoration(
                     labelText: 'Ticket ID',
-                    border: OutlineInputBorder(),
                   ),
                 ),
                 TextField(

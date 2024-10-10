@@ -1,3 +1,4 @@
+import 'package:airportuser/controllers/BookingController.dart';
 import 'package:airportuser/core/network/dioClient.dart';
 import 'package:airportuser/core/showSucessDialog.dart';
 import 'package:airportuser/models/User.dart';
@@ -8,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Logincontroller extends GetxController {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  final BookingController bookingController = Get.put(BookingController());
 
   void login(BuildContext context) async {
     User user = User(
@@ -31,6 +34,7 @@ class Logincontroller extends GetxController {
         await prefs.setString('email', userEmail);
         await prefs.setInt('id', userId);
 
+        bookingController.bookedTickets.clear();
 
         showsuccessdialog(context, "Success", "Welcome back, $name", () {
           print("Name: " + name);
@@ -49,7 +53,14 @@ class Logincontroller extends GetxController {
 
   Future<void> logout(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove("ACCESS_TOKEN");
+
+    await prefs.remove("ACCESS_TOKEN");
+    await prefs.remove("name");
+    await prefs.remove("email");
+    await prefs.remove("id");
+
+    bookingController.bookedTickets.clear();
     Get.offNamed('/login');
+    Get.snackbar("Logged out", "You have successfully logged out", snackPosition: SnackPosition.BOTTOM);
   }
 }

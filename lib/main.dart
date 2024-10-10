@@ -56,7 +56,6 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     _loadName(); 
   }
 
-  // Load the user's name from SharedPreferences
   Future<void> _loadName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {

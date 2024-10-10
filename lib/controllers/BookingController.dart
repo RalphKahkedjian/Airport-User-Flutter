@@ -3,10 +3,9 @@ import 'package:airportuser/core/network/dioClient.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingController extends GetxController {
-
   var bookedTickets = <Map<String, dynamic>>[].obs;  
   var isLoading = false.obs; 
-  
+
   void bookTicket(int userId, int ticketId, int quantity) async {
     var bookingData = {
       'user_id': userId,
@@ -34,49 +33,45 @@ class BookingController extends GetxController {
     }
   }
 
-  void viewBookedTickets() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? userID = prefs.getInt('id');
-    if (userID == null) {
-      print("User ID not found.");
-      return;
-    }
-
-    try {
-      var response = await DioClient().GetInstance().get('/book/$userID');
-      print(response.data);
-
-      if (response.statusCode == 200) {
-        var ticketsData = response.data;
-
-        if (ticketsData is List) {
-          bookedTickets.value = ticketsData.map((ticket) {
-            return {
-              'id': ticket['id'],
-              'ticket_id': ticket['ticket_id'],
-              'quantity': ticket['quantity'],
-              'status': ticket['status'],
-            };
-          }).toList();
-
-          print("Fetched ${bookedTickets.length} booked tickets");
-          print("Booked Tickets: $bookedTickets");
-        } else {
-          print("Expected a list of tickets but got: ${ticketsData.runtimeType}");
-        }
-      } else {
-        print("Failed to load booked tickets: ${response.statusCode}");
-      }
-    } catch (e) {
-      if (e.response?.statusCode == 404) {
-        Get.snackbar("Error", "Ticket ID not found", snackPosition: SnackPosition.BOTTOM);
-        bookedTickets.clear();
-      } else {
-        Get.snackbar("Error", "No Booking Tickets Found ", snackPosition: SnackPosition.BOTTOM);
-      }
-      print("Error fetching booked tickets: $e");
-    }
+void viewBookedTickets() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  int? userID = prefs.getInt('id');
+  bookedTickets.clear();
+  if (userID == null) {
+    Get.snackbar("Error", "User ID not found", snackPosition: SnackPosition.BOTTOM);
+    return;
   }
+
+  try {
+    var response = await DioClient().GetInstance().get('/book/$userID');
+    
+    if (response.statusCode == 200) {
+      var ticketsData = response.data;
+
+      if (ticketsData is List && ticketsData.isNotEmpty) {
+        bookedTickets.value = ticketsData.map((ticket) {
+          return {
+            'id': ticket['id'],
+            'ticket_id': ticket['ticket_id'],
+            'quantity': ticket['quantity'],
+            'status': ticket['status'],
+          };
+        }).toList();
+      } else {
+        bookedTickets.clear(); 
+        Get.snackbar("No Bookings", "No tickets found for the user", snackPosition: SnackPosition.BOTTOM);
+      }
+    } else if (response.statusCode == 404) {
+      bookedTickets.clear(); 
+      Get.snackbar("Error", "No tickets found (404)", snackPosition: SnackPosition.BOTTOM);
+    } else {
+      Get.snackbar("Error", "Failed to load tickets", snackPosition: SnackPosition.BOTTOM);
+    }
+  } catch (e) {
+    bookedTickets.clear();
+    Get.snackbar("Error", "No booked tickets found.", snackPosition: SnackPosition.BOTTOM);
+  }
+}
 
   void deleteBooking(int bookingId, int userId) async {
     isLoading.value = true;
@@ -104,3 +99,4 @@ class BookingController extends GetxController {
 extension on Object {
   get response => null;
 }
+
